@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Employee Information Form</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: inherit;
+      }
+
+      html {
+        font-size: 62.5%;
+        box-sizing: border-box;
+      }
+
+      body {
+        padding: 5rem 5rem 10rem;
+        line-height: 1.7;
+        font-family: "Nunito Sans", sans-serif;
+        color: #555;
+        min-height: 100vh;
+        background: linear-gradient(to bottom right, #9be15d, #00e3ae);
+      }
+
+      h2 {
+        font-family: "Megrim", sans-serif;
+        font-size: 6rem;
+        color: white;
+        transform: skewY(-5deg);
+        text-align: center;
+        position: relative;
+        word-spacing: 3px;
+      }
+
+      form {
+        width: 40rem;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 3rem 6rem 1rem rgba(0, 0, 0, 0.2);
+        padding: 3rem;
+        margin-top: 3rem;
+      }
+
+      label {
+        display: block;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="number"] {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.6rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 2rem;
+      }
+
+      input[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.8rem;
+        background-color: #79e17b;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #9be15d;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Employee Information</h2>
+    <div class="container">
+      <form id="employeeForm" action="/add" method="post">
+        <label for="employeeId">Employee ID:</label>
+        <input type="text" id="employeeId" name="employeeId" required />
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required />
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required />
+
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department" required />
+
+        <label for="position">Position:</label>
+        <input type="text" id="position" name="position" required />
+
+        <label for="salary">Salary:</label>
+        <input type="number" id="salary" name="salary" required />
+
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" required />
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required />
+
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" required />
+
+        <label for="zipCode">Zip Code:</label>
+        <input type="text" id="zipCode" name="zipCode" required />
+
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" required />
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4"></textarea>
+
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+
+    <script>
+      const form = document.getElementById("employeeForm");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const employeeData = {};
+
+        for (let [key, value] of formData) {
+          employeeData[key] = value;
+        }
+
+        fetch("/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(employeeData),
+        }).then((response) => response.json())
+          .then((data) => {
+            // Handle the response from the server
+            if (data.success) {
+              // Registration successful, do something
+              console.log("suxceesss");
+            } else {
+              // Registration failed, display error message
+              console.error("Registration failed");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      });
+    </script>
+  </body>
+</html>
